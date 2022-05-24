@@ -1,7 +1,7 @@
 <template>
     <nav class="container my-3">
         <b-row class="justify-content-end">
-            <b-col cols="3" class="div-search">
+            <b-col cols="12" md="8" lg="4" class="div-search">
                 <b-form-input
                     type="search"
                     v-model="titleSearched"
@@ -17,7 +17,7 @@
                     <b-icon-search></b-icon-search>
                 </span>
             </b-col>
-            <b-col cols="2">
+            <b-col cols="6" md="4" lg="2" class="mt-md-0 mt-2">
                 <b-form-select
                     id="select-sort-news"
                     v-model="sortSelected"
@@ -62,7 +62,7 @@ export default {
     width: 22px;
     height: 26px;
     z-index: 1000;
-    background: rgb(70, 70, 70);
+    background: var(--color-purple);
     cursor: pointer;
 }
 .bi-search {
