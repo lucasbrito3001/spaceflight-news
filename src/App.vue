@@ -1,28 +1,42 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    <div id="app">
+        <header>
+            <Header 
+                @searchByTitle="searchNewsByTitle"
+                @sortBySelected="sortNews"
+            >
+            </Header>
+        </header>
+    </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import Header from './components/Header.vue'
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+    name: "App",
+    components: {
+        Header
+    },
+    data: () => ({
+
+    }),
+    methods: {
+        searchNewsByTitle(titleSearched) {
+            console.log(titleSearched)
+        },
+        sortNews(sortSelected) {
+            console.log(sortSelected)
+        }
+    }
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap');
+* {
+    font-family: 'Roboto Condensed', sans-serif;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
 }
 </style>
