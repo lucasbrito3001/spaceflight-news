@@ -11,12 +11,21 @@
             <h1 class="my-4 h4 title-dark">Space Flight News</h1>
         </header>
         <hr />
-        <ul class="news-list">
+        <b-row v-if="isSearchingNews && articles.length === 0">
+            <b-col class="text-center mt-5">
+                <b-spinner type="grow"/>
+                <br>
+                <strong>Loading news...</strong>
+            </b-col>
+        </b-row>
+        <ul v-else class="news-list mt-5">
             <b-row class="justify-content-center align-items-center">
-                <b-col v-if="articles.length === 0" class="text-center mt-5">
-                    <b-spinner type="grow"/>
-                    <br>
-                    <strong>Loading news...</strong>
+                <b-col v-if="articles.length === 0">
+                    <p class="text-center mt-5">
+                        <b-icon-exclamation-circle width="32" height="32" class="mb-3"></b-icon-exclamation-circle>
+                        <br>
+                        Nenhuma notícia encontrada, tente novamente retirando/modificando os filtros adicionados
+                    </p>
                 </b-col>
                 <b-col
                     v-else
@@ -25,7 +34,7 @@
                     lg="9"
                     v-for="(article, idx) in articles"
                     :key="idx"
-                >
+                >   
                     <li class="news-list-item mb-2 mb-lg-5">
                         <CardNews
                             :imgSide="idx % 2 === 0 ? 'left' : 'right'"
@@ -53,36 +62,21 @@
 
 <script>
 import CardNews from "./Card.vue";
-import api from "../services/api.js";
 export default {
+    props: {
+        articles: Array,
+        isSearchingNews: {
+            type: Boolean,
+            default: false
+        }
+    },
     components: {
         CardNews,
     },
-    data: () => ({
-        articles: [],
-    }),
     filters: {
         formatDate(value) {
             return new Date(value).toLocaleString().slice(0,10)
         }
-    },
-    mounted() {
-        this.getArticles();
-    },
-    methods: {
-        async getArticles() {
-            const news = await api.getArticles();
-
-            const actions = {
-                200: () => {
-                    this.articles = news.data;
-                    console.log(news.data);
-                },
-                404: () => {},
-            };
-
-            actions[news.statusCode]();
-        },
     },
 };
 </script>

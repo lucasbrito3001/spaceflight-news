@@ -34,12 +34,12 @@
 import Modal from "./Modal.vue";
 export default {
     name: "CardsNews",
-    components: {
-        Modal,
-    },
     props: {
         imgSide: String,
         cardInfos: Object,
+    },
+    components: {
+        Modal,
     },
     data: () => ({
         showModal: false,

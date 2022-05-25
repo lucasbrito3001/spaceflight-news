@@ -26,6 +26,11 @@
                 >
                 </b-form-select>
             </b-col>
+            <b-col cols="12" class="text-right mt-3">
+                <b-button variant="purple" size="sm" @click="clearFilters"
+                    >Limpar filtros</b-button
+                >
+            </b-col>
         </b-row>
     </nav>
 </template>
@@ -36,13 +41,18 @@ export default {
         titleSearched: "",
         sortSelected: undefined,
         sortOptions: [
-            { value: 0, text: "Mais antigas" },
-            { value: 1, text: "Mais novas" },
+            { value: "asc", text: "Mais antigas" },
+            { value: "desc", text: "Mais novas" },
         ],
     }),
     methods: {
         emitEvent(name, value) {
             this.$emit(name, value);
+        },
+        clearFilters() {
+            this.titleSearched = "";
+            this.sortSelected = undefined;
+            this.$emit("clearFilters");
         },
     },
 };
