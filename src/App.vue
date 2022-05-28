@@ -15,7 +15,10 @@
             ></ListOfNews>
         </section>
         <footer v-if="articles.length > 0">
-            <Footer @clickToSeeMore="seeMore"></Footer>
+            <Footer
+                @clickToSeeMore="seeMore"
+                :isSearchingNews="isSearchingNews"
+            ></Footer>
         </footer>
     </div>
 </template>
@@ -38,30 +41,31 @@ export default {
         articles: [],
         isSearchingNews: false,
         actualPage: 0,
-        searchedTitle: '',
-        selectedSortOrder: ''
+        searchedTitle: "",
+        selectedSortOrder: "",
     }),
     mounted() {
         this.getArticles();
     },
     methods: {
         async getArticles(seeMore = false) {
-            if(!seeMore) this.articles = [];
+            if (!seeMore) this.articles = [];
             this.isSearchingNews = true;
 
             const filtersToApply = [
-                { type: 'start', value: this.actualPage },
-                { type: 'title', value: this.searchedTitle },
-                { type: 'sort', value: this.selectedSortOrder }
-            ]
+                { type: "start", value: this.actualPage },
+                { type: "title", value: this.searchedTitle },
+                { type: "sort", value: this.selectedSortOrder },
+            ];
 
-            console.log(filtersToApply)
+            console.log(filtersToApply);
 
             const news = await api.getArticles(filtersToApply);
 
             const actions = {
                 200: () => {
-                    if (seeMore) this.articles = [...this.articles, ...news.data];
+                    if (seeMore)
+                        this.articles = [...this.articles, ...news.data];
                     else this.articles = news.data;
 
                     this.makeToast(
@@ -87,43 +91,50 @@ export default {
         },
         returnQueryParamToSend() {
             const filtersToIterate = [
-                { type: 'title', value: this.searchedTitle }, 
-                { type: 'sort', value: this.selectedSortOrder }
-            ]
+                { type: "title", value: this.searchedTitle },
+                { type: "sort", value: this.selectedSortOrder },
+            ];
 
-            const additionalQuery = filtersToIterate.reduce((prev, next) => prev += this.returnQueryParamToEachFilterType(next.type, next.value), '')
+            const additionalQuery = filtersToIterate.reduce(
+                (prev, next) =>
+                    (prev += this.returnQueryParamToEachFilterType(
+                        next.type,
+                        next.value
+                    )),
+                ""
+            );
 
-            return additionalQuery
+            return additionalQuery;
         },
         returnQueryParamToEachFilterType(type, value) {
             const queryToReturn = {
                 title: `&title_contains=${value}`,
-                sort: `&_sort=publishedAt:${value}`
-            }
+                sort: `&_sort=publishedAt:${value}`,
+            };
 
-            if(value) return queryToReturn[type] || ''
-            else return ''
+            if (value) return queryToReturn[type] || "";
+            else return "";
         },
         seeMore() {
-            this.actualPage++
+            this.actualPage++;
             this.getArticles(true);
         },
         setTitleSearched(title) {
-            this.searchedTitle = title
-            this.actualPage = 0
-            this.getArticles()
+            this.searchedTitle = title;
+            this.actualPage = 0;
+            this.getArticles();
         },
         setSelectedSortOrder(sortOrder) {
-            this.selectedSortOrder = sortOrder
-            this.actualPage = 0
-            this.getArticles()
+            this.selectedSortOrder = sortOrder;
+            this.actualPage = 0;
+            this.getArticles();
         },
         clearFilters() {
-            this.searchedTitle = ""
-            this.selectedSortOrder = ""
-            this.actualPage = 0
-            this.getArticles()
-        }
+            this.searchedTitle = "";
+            this.selectedSortOrder = "";
+            this.actualPage = 0;
+            this.getArticles();
+        },
     },
 };
 </script>
