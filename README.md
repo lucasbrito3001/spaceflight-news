@@ -25,4 +25,8 @@
 - Cada item da lista tem um botão "Ver mais" que abre um modal obtendo as informações da notícia e um botão que te redireciona para o site link original da notícia
 - Apertando em limpar filtros, você vai remover todos os filtros, limpar a lista atual e fazer um nova requisição para a API obtendo novos registros
 
+[Link apresentação]('https://www.loom.com/share/d5f07829fde74740ac6fda62669c67e8')
+
+[Link do projeto hospedado na Vercel]('https://spaceflightnews-one.vercel.app/')
+
 > This is a challenge by [Coodesh](https://coodesh.com/)
